@@ -149,6 +149,10 @@ public class MessengerPlatformCallbackHandler {
 
             try {
                 switch (messageText.toLowerCase()) {
+                    case "Hi":
+                          sendQuickReply1(senderId);
+                          break;
+                        
                     case "image":
                         sendImageMessage(senderId);
                         break;
@@ -242,7 +246,7 @@ public class MessengerPlatformCallbackHandler {
         final ButtonTemplate buttonTemplate = ButtonTemplate.newBuilder("Tap a button", buttons).build();
         this.sendClient.sendTemplate(recipientId, buttonTemplate);
     }
-
+ 
     private void sendGenericMessage(String recipientId) throws MessengerApiException, MessengerIOException {
         final List<Button> riftButtons = Button.newListBuilder()
                 .addUrlButton("Open Web URL", "https://www.oculus.com/en-us/rift/").toList()
@@ -319,6 +323,17 @@ public class MessengerPlatformCallbackHandler {
 
         this.sendClient.sendTextMessage(recipientId, "What's your favorite movie genre?", quickReplies);
     }
+     private void sendQuickReply1(String recipientId) throws MessengerApiException, MessengerIOException {
+        final List<QuickReply> quickReplies1 = QuickReply.newListBuilder()
+                .addTextQuickReply("Happy", "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_ACTION").toList()
+                .addTextQuickReply("Sad", "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_COMEDY").toList()
+                .addTextQuickReply("Excited", "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA").toList()
+                .addTextQuickReply("I don't Know", "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_DRAMA").toList()
+                .addLocationQuickReply().toList()
+                .build();
+
+        this.sendClient.sendTextMessage(recipientId, "Hi !"+recipientID+" How are you feeling today?", quickReplies);
+    }
 
     private void sendReadReceipt(String recipientId) throws MessengerApiException, MessengerIOException {
         this.sendClient.sendSenderAction(recipientId, SenderAction.MARK_SEEN);
@@ -378,7 +393,7 @@ public class MessengerPlatformCallbackHandler {
 
             logger.info("Received quick reply for message '{}' with payload '{}'", messageId, quickReplyPayload);
 
-            sendTextMessage(senderId, "Quick reply tapped");
+            sendTextMessage(senderId, "Thank you for your response ! Have a nice day ahead !");
         };
     }
 
